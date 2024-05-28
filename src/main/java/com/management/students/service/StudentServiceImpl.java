@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StudentServiceImpl implements StudentSevice{
@@ -26,5 +27,19 @@ public class StudentServiceImpl implements StudentSevice{
     @Override
     public void save(Student student) {
         studentRepository.save(student);
+    }
+
+    @Override
+    public Student findById(int id) {
+        Optional<Student> op = studentRepository.findById(id);
+        if (op.isPresent()) {
+            return op.get();
+        }
+        return null;
+    }
+
+    @Override
+    public void remove(Student student) {
+        studentRepository.delete(student);
     }
 }

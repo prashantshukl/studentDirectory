@@ -5,10 +5,7 @@ import com.management.students.service.StudentSevice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -40,6 +37,20 @@ public class StudentController {
     @PostMapping("/addStudent")
     public String addStudent(@ModelAttribute("student") Student student) {
         studentSevice.save(student);
+        return "redirect:/students/list";
+    }
+
+    @GetMapping("/showFormForUpdate")
+    public String showFormForUpdate(@RequestParam("studentId") int id, Model model) {
+        Student theStudent = studentSevice.findById(id);
+        model.addAttribute("student", theStudent);
+        return "addStudentForm";
+    }
+
+    @GetMapping("/deleteStudent")
+    public String deleteStudent(@RequestParam("studentId") int id) {
+        Student theStudent = studentSevice.findById(id);
+        studentSevice.remove(theStudent);
         return "redirect:/students/list";
     }
 
